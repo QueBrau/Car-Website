@@ -1,0 +1,159 @@
+.contact {
+  padding: 8rem 0;
+  background: var(--color-bg-light);
+}
+
+.contact-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 4rem;
+  margin-top: 4rem;
+}
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.info-block {
+  border-left: 1px solid var(--color-border);
+  padding-left: 2rem;
+}
+
+.info-title {
+  font-size: 0.85rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.info-content div {
+  font-size: 0.95rem;
+  color: var(--color-text);
+  margin-bottom: 0.5rem;
+  font-weight: 300;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.contact-form input,
+.contact-form select,
+.contact-form textarea {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--color-border);
+  padding: 1rem 0;
+  color: var(--color-text);
+  font-family: var(--font-primary);
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  transition: var(--transition);
+  outline: none;
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+  color: var(--color-text-secondary);
+  letter-spacing: 2px;
+}
+
+.contact-form input:focus,
+.contact-form select:focus,
+.contact-form textarea:focus {
+  border-bottom-color: var(--color-text);
+}
+
+.contact-form select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0 center;
+  background-size: 1.5em;
+}
+
+.contact-form select option {
+  background: var(--color-bg-light);
+  color: var(--color-text);
+}
+
+.contact-form textarea {
+  resize: vertical;
+  min-height: 150px;
+}
+
+.submit-btn {
+  background: var(--color-text);
+  color: var(--color-bg);
+  border: none;
+  padding: 1.2rem 3rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: var(--transition);
+  align-self: flex-start;
+}
+
+.submit-btn:hover {
+  background: var(--color-text-secondary);
+  transform: translateY(-2px);
+}
+
+.notification {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: var(--color-text);
+  color: var(--color-bg);
+  padding: 1.5rem 2rem;
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  animation: slideIn 0.3s ease;
+  z-index: 1000;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(400px);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@media (max-width: 968px) {
+  .contact {
+    padding: 5rem 0;
+  }
+
+  .contact-wrapper {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .notification {
+    left: 1rem;
+    right: 1rem;
+    text-align: center;
+  }
+}
