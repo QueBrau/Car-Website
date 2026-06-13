@@ -2,7 +2,6 @@ services:
   - type: web
     name: mach1-auto-styling
     runtime: static
-    plan: free
     buildCommand: npm install && npm run build
     staticPublishPath: ./dist
     headers:
