@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import emailjs from '@emailjs/browser';
 import './Contact.css';
 
 const Contact = () => {
@@ -10,7 +11,8 @@ const Contact = () => {
     message: ''
   });
 
-  const [notification, setNotification] = useState({ show: false, message: '' });
+  const [notification, setNotification] = useState({ show: false, message: '', isError: false });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -19,28 +21,55 @@ const Contact = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Show success notification
-    setNotification({
-      show: true,
-      message: 'Thank you! We\'ll be in touch soon.'
-    });
+    setIsSubmitting(true);
 
-    // Reset form
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      service: '',
-      message: ''
-    });
+    try {
+      // Send email using EmailJS
+      await emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          phone: formData.phone,
+          service: formData.service,
+          message: formData.message,
+        },
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+      );
 
-    // Hide notification after 3 seconds
-    setTimeout(() => {
-      setNotification({ show: false, message: '' });
-    }, 3000);
+      // Show success notification
+      setNotification({
+        show: true,
+        message: 'Thank you! We\'ll be in touch soon.',
+        isError: false
+      });
+
+      // Reset form
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        service: '',
+        message: ''
+      });
+    } catch (error) {
+      console.error('Email send failed:', error);
+      setNotification({
+        show: true,
+        message: 'Something went wrong. Please email us directly at mach1autostyling@gmail.com',
+        isError: true
+      });
+    } finally {
+      setIsSubmitting(false);
+      
+      // Hide notification after 5 seconds
+      setTimeout(() => {
+        setNotification({ show: false, message: '', isError: false });
+      }, 5000);
+    }
   };
 
   return (
@@ -72,8 +101,7 @@ const Contact = () => {
             <div className="info-block">
               <div className="info-title">EMAIL</div>
               <div className="info-content">
-                <div>info@mach1auto.com</div>
-                <div>quotes@mach1auto.com</div>
+                <div>mach1autostyling@gmail.com</div>
               </div>
             </div>
           </div>
@@ -87,6 +115,7 @@ const Contact = () => {
                 value={formData.name}
                 onChange={handleChange}
                 required
+                disabled={isSubmitting}
               />
               <input
                 type="email"
@@ -95,6 +124,7 @@ const Contact = () => {
                 value={formData.email}
                 onChange={handleChange}
                 required
+                disabled={isSubmitting}
               />
             </div>
 
@@ -106,12 +136,14 @@ const Contact = () => {
                 value={formData.phone}
                 onChange={handleChange}
                 required
+                disabled={isSubmitting}
               />
               <select
                 name="service"
                 value={formData.service}
                 onChange={handleChange}
                 required
+                disabled={isSubmitting}
               >
                 <option value="">SELECT SERVICE</option>
                 <option value="Full Wrap">Full Wrap</option>
@@ -129,15 +161,20 @@ const Contact = () => {
               value={formData.message}
               onChange={handleChange}
               required
+              disabled={isSubmitting}
             ></textarea>
 
-            <button type="submit" className="submit-btn">SUBMIT</button>
+            <button type="submit" className="submit-btn" disabled={isSubmitting}>
+              {isSubmitting ? 'SENDING...' : 'SUBMIT'}
+            </button>
           </form>
         </div>
       </div>
 
       {notification.show && (
-        <div className="notification">{notification.message}</div>
+        <div className={`notification ${notification.isError ? 'error' : ''}`}>
+          {notification.message}
+        </div>
       )}
     </section>
   );

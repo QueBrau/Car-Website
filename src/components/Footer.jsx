@@ -22,7 +22,6 @@ const Footer = () => {
         <div className="footer-content">
           <div className="footer-col">
             <h3>MACH 1</h3>
-            <p>Premium automotive styling since 2016</p>
           </div>
 
           <div className="footer-col">

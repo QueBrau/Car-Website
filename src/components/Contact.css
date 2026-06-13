@@ -127,6 +127,11 @@
   z-index: 1000;
 }
 
+.notification.error {
+  background: #dc2626;
+  color: white;
+}
+
 @keyframes slideIn {
   from {
     transform: translateX(400px);
